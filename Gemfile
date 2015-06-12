@@ -33,6 +33,8 @@ gem 'clearance-deprecated_password_strategies'
 gem 'daemons'
 gem 'delayed_job'
 gem 'delayed_job_active_record'
+gem 'elasticsearch-model', '~> 0.1.7'
+gem 'elasticsearch-rails', '~> 0.1.7'
 
 gem 'newrelic_rpm'
 gem 'newrelic-redis'

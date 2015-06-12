@@ -1,5 +1,7 @@
 class Rubygem < ActiveRecord::Base
   include Patterns
+  include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
 
   has_many :owners, :through => :ownerships, :source => :user
   has_many :ownerships, :dependent => :destroy
@@ -14,6 +16,15 @@ class Rubygem < ActiveRecord::Base
 
   after_create :update_unresolved
   before_destroy :mark_unresolved
+
+  mappings do
+    indexes :name
+    indexes :indexed, type: 'boolean'
+  end
+
+  def as_indexed_json(options={})
+    {:name => name, :indexed => versions.any?(&:indexed?)}
+  end
 
   def self.with_versions
     where("rubygems.id IN (SELECT rubygem_id FROM versions where versions.indexed IS true)")

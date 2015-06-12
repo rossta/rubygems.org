@@ -91,6 +91,19 @@ GEM
     domain_name (0.5.24)
       unf (>= 0.0.5, < 1.0.0)
     dynamic_form (1.1.4)
+    elasticsearch (1.0.12)
+      elasticsearch-api (= 1.0.12)
+      elasticsearch-transport (= 1.0.12)
+    elasticsearch-api (1.0.12)
+      multi_json
+    elasticsearch-model (0.1.7)
+      activesupport (> 3)
+      elasticsearch (> 0.4)
+      hashie
+    elasticsearch-rails (0.1.7)
+    elasticsearch-transport (1.0.12)
+      faraday
+      multi_json
     email_validator (1.6.0)
       activemodel
     erubis (2.7.0)
@@ -100,10 +113,13 @@ GEM
     factory_girl_rails (4.5.0)
       factory_girl (~> 4.5.0)
       railties (>= 3.0.0)
+    faraday (0.9.1)
+      multipart-post (>= 1.2, < 3)
     gchartrb (0.8)
     globalid (0.3.5)
       activesupport (>= 4.1.0)
     gravtastic (3.2.6)
+    hashie (3.4.2)
     high_voltage (2.3.0)
     highline (1.7.2)
     honeybadger (2.1.0)
@@ -131,6 +147,7 @@ GEM
     mocha (1.1.0)
       metaclass (~> 0.0.1)
     multi_json (1.11.1)
+    multipart-post (2.0.0)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (2.9.2)
@@ -259,6 +276,8 @@ DEPENDENCIES
   delayed_job
   delayed_job_active_record
   dynamic_form
+  elasticsearch-model (~> 0.1.7)
+  elasticsearch-rails (~> 0.1.7)
   factory_girl_rails
   gchartrb
   gravtastic
