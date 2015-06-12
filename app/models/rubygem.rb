@@ -44,7 +44,7 @@ class Rubygem < ActiveRecord::Base
     where("UPPER(name) = UPPER(?)", name.strip).limit(1)
   end
 
-  def self.search(query)
+  def self.legacy_search(query)
     conditions = <<-SQL
       versions.indexed and
         (upper(name) like upper(:query) or
