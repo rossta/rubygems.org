@@ -69,4 +69,22 @@ class SearchesControllerTest < ActionController::TestCase
     should respond_with :success
     should render_template :show
   end
+
+  context "with elasticsearch down" do
+    setup do
+      @sinatra = create(:rubygem, :name => "sinatra")
+      @sinatra_redux = create(:rubygem, :name => "sinatra-redux")
+      @brando  = create(:rubygem, :name => "brando")
+      create(:version, :rubygem => @sinatra)
+      create(:version, :rubygem => @sinatra_redux)
+      create(:version, :rubygem => @brando)
+    end
+    should "fallback to legacy search" do
+      requires_toxiproxy
+      Toxiproxy[:elasticsearch].down do
+        get :show, query: 'sinatra', es: 'true'
+        assert_response :success
+      end
+    end
+  end
 end

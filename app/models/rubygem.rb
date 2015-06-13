@@ -17,14 +17,28 @@ class Rubygem < ActiveRecord::Base
   after_create :update_unresolved
   before_destroy :mark_unresolved
 
-  mappings do
-    indexes :name
-    indexes :indexed, type: 'boolean'
+  settings number_of_shards: 1,
+           number_of_replicas: 1,
+           analysis: {
+             analyzer: {
+                rubygem: {
+                  type: 'pattern',
+                  pattern: "[\s#{Regexp.escape(SPECIAL_CHARACTERS)}]+"
+                }
+              }
+            } do
+    mapping do
+      indexes :name, analyzer: 'rubygem'
+      indexes :indexed, type: 'boolean'
+      indexes :downloads, type: 'integer'
+      indexes :summary, analyzer: 'english', as: proc { versions.most_recent.try(:summary) }
+      indexes :author, as: proc { versions.most_recent.try(:authors).try(:split, /\s*,\s*/) }
+    end
   end
 
-  def as_indexed_json(options={})
-    {:name => name, :indexed => versions.any?(&:indexed?)}
-  end
+  # def as_indexed_json(options={})
+  #   {name: name, indexed: versions.any?(&:indexed?), downloads: downloads}
+  # end
 
   def self.with_versions
     where("rubygems.id IN (SELECT rubygem_id FROM versions where versions.indexed IS true)")

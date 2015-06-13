@@ -8,6 +8,7 @@ rvm:
 
 services:
   - redis-server
+  - elasticsearch
 
 sudo: true
 
