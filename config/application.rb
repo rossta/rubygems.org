@@ -8,14 +8,11 @@ Bundler.require(*Rails.groups)
 
 module Gemcutter
   class Application < Rails::Application
-    def config_for(name, env = Rails.env)
-      YAML.load_file(Rails.root.join("config/#{name}.yml"))[env]
-    end
     config.rubygems = Application.config_for :rubygems
 
     config.time_zone = "UTC"
     config.encoding  = "utf-8"
-    config.i18n.available_locales = [:en, :nl, 'zh-CN']
+    config.i18n.available_locales = [:en, :nl, 'zh-CN', 'zh-TW']
     config.i18n.fallbacks = true
 
     config.middleware.use "Redirector" unless Rails.env.development?
